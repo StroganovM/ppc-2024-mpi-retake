@@ -4,6 +4,7 @@
 #include <boost/mpi/communicator.hpp>
 #include <memory>
 #include <vector>
+
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
 
 TEST(stroganov_m_dining_philosophers, Valid_Number_Of_Philosophers) {
