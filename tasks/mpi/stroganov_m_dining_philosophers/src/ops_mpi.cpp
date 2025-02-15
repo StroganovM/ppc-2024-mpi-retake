@@ -126,5 +126,6 @@ bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::PostProcessingImpl(
     int lastes_message;
     world.recv(MPI_ANY_SOURCE, MPI_ANY_TAG, lastes_message);
   }
+  world.barrier();
   return true;
 }
