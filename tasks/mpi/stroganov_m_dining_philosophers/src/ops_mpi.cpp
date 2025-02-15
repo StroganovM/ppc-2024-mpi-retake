@@ -109,7 +109,8 @@ bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::RunImpl() {
 
 bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::check_all_think() {
   std::vector<int> all_states;
-  boost::mpi::all_gather(world, status, all_states);
+  int temp_status = status;
+  boost::mpi::all_gather(world, temp_status, all_states);
   world.barrier();
   return std::all_of(all_states.begin(), all_states.end(), [](int state) { return state == 0; });
 }
