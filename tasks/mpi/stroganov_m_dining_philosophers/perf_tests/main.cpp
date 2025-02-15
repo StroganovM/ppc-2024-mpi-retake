@@ -5,9 +5,10 @@
 #include <vector>
 
 #include "core/perf/include/perf.hpp"
+#include "core/task/include/task.hpp"
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
 
-TEST(stroganov_m_dining_philosophers, test_PipelineRun) {
+TEST(stroganov_m_dining_philosophers, test_pipeline_Run) {
   boost::mpi::communicator world;
 
   std::shared_ptr<ppc::core::TaskData> taskData = std::make_shared<ppc::core::TaskData>();
