@@ -1,70 +1,67 @@
 // Copyright 2023 Nesterov Alexander
 #include <gtest/gtest.h>
-// #include <mpi.h>
 
 #include <boost/mpi/communicator.hpp>
-#include <boost/mpi/environment.hpp>
-#include <thread>
 #include <vector>
-
+#include <memory>
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
 
 TEST(stroganov_m_dining_philosophers, Valid_Number_Of_Philosophers) {
   boost::mpi::communicator world;
   int count_philosophers = 5;
-  auto taskData = std::make_shared<ppc::core::TaskData>();
+  auto task_data = std::make_shared<ppc::core::TaskData>();
 
   if (world.rank() == 0) {
-    taskData->inputs_count.push_back(count_philosophers);
+    task_data->inputs_count.push_back(count_philosophers);
   }
 
-  stroganov_m_dining_philosophers::DiningPhilosophersMPI DiningPhilosophersMPI(taskData);
+  stroganov_m_dining_philosophers::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
   if (world.size() < 2) {
     GTEST_SKIP();
   }
-  ASSERT_TRUE(DiningPhilosophersMPI.ValidationImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PreProcessingImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.RunImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PostProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.ValidationImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PreProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.RunImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PostProcessingImpl());
 }
 
 TEST(stroganov_m_dining_philosophers, Deadlock_Free_Execution) {
   boost::mpi::communicator world;
-  auto taskData = std::make_shared<ppc::core::TaskData>();
+  auto task_data = std::make_shared<ppc::core::TaskData>();
   int count_philosophers = world.size();
 
   if (world.rank() == 0) {
-    taskData->inputs_count.push_back(count_philosophers);
+    task_data->inputs_count.push_back(count_philosophers);
   }
 
-  stroganov_m_dining_philosophers::DiningPhilosophersMPI DiningPhilosophersMPI(taskData);
+  stroganov_m_dining_philosophers::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
   if (world.size() < 2) {
     GTEST_SKIP();
   }
-  ASSERT_TRUE(DiningPhilosophersMPI.ValidationImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PreProcessingImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.RunImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PostProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.ValidationImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PreProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.RunImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PostProcessingImpl());
 }
 
 TEST(stroganov_m_dining_philosophers, Custom_Logic_Execution) {
   boost::mpi::communicator world;
   int count_philosophers = 4;
-  auto taskData = std::make_shared<ppc::core::TaskData>();
+  auto task_data = std::make_shared<ppc::core::TaskData>();
 
   if (world.rank() == 0) {
-    taskData->inputs_count.push_back(count_philosophers);
+    task_data->inputs_count.push_back(count_philosophers);
   }
 
-  stroganov_m_dining_philosophers::DiningPhilosophersMPI DiningPhilosophersMPI(taskData);
+  stroganov_m_dining_philosophers::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
   if (world.size() < 2) {
     GTEST_SKIP();
   }
 
-  ASSERT_TRUE(DiningPhilosophersMPI.ValidationImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PreProcessingImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.RunImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PostProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.ValidationImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PreProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.RunImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PostProcessingImpl());
 }
 
 TEST(stroganov_m_dining_philosophers, Test_default_num_philosophers) {
@@ -72,17 +69,17 @@ TEST(stroganov_m_dining_philosophers, Test_default_num_philosophers) {
 
   int count_philosophers = world.size();
 
-  auto taskData = std::make_shared<ppc::core::TaskData>();
-  taskData->inputs_count.push_back(count_philosophers);
+  auto task_data = std::make_shared<ppc::core::TaskData>();
+  task_data->inputs_count.push_back(count_philosophers);
 
-  stroganov_m_dining_philosophers::DiningPhilosophersMPI DiningPhilosophersMPI(taskData);
+  stroganov_m_dining_philosophers::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
 
-  if (DiningPhilosophersMPI.ValidationImpl()) {
-    ASSERT_TRUE(DiningPhilosophersMPI.PreProcessingImpl());
-    ASSERT_TRUE(DiningPhilosophersMPI.RunImpl());
-    ASSERT_TRUE(DiningPhilosophersMPI.PostProcessingImpl());
+  if (dining_philosophers_mpi.ValidationImpl()) {
+    ASSERT_TRUE(dining_philosophers_mpi.PreProcessingImpl());
+    ASSERT_TRUE(dining_philosophers_mpi.RunImpl());
+    ASSERT_TRUE(dining_philosophers_mpi.PostProcessingImpl());
 
-    bool deadlock_detected = DiningPhilosophersMPI.check_deadlock();
+    bool deadlock_detected = dining_philosophers_mpi.CheckDeadlock();
     if (world.rank() == 0) {
       ASSERT_FALSE(deadlock_detected);
     }
@@ -96,20 +93,20 @@ TEST(stroganov_m_dining_philosophers, Test_with_5_philosophers) {
 
   int count_philosophers = 5;
 
-  auto taskData = std::make_shared<ppc::core::TaskData>();
-  taskData->inputs_count.push_back(count_philosophers);
+  auto task_data = std::make_shared<ppc::core::TaskData>();
+  task_data->inputs_count.push_back(count_philosophers);
 
-  stroganov_m_dining_philosophers::DiningPhilosophersMPI DiningPhilosophersMPI(taskData);
+  stroganov_m_dining_philosophers::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
 
   if (world.size() < 2) {
     GTEST_SKIP();
   }
-  ASSERT_TRUE(DiningPhilosophersMPI.ValidationImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PreProcessingImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.RunImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PostProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.ValidationImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PreProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.RunImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PostProcessingImpl());
 
-  bool deadlock_detected = DiningPhilosophersMPI.check_deadlock();
+  bool deadlock_detected = dining_philosophers_mpi.CheckDeadlock();
   if (world.rank() == 0) {
     ASSERT_FALSE(deadlock_detected);
   }
@@ -120,20 +117,20 @@ TEST(stroganov_m_dining_philosophers, Test_with_15_philosophers) {
 
   int count_philosophers = 15;
 
-  auto taskData = std::make_shared<ppc::core::TaskData>();
-  taskData->inputs_count.push_back(count_philosophers);
+  auto task_data = std::make_shared<ppc::core::TaskData>();
+  task_data->inputs_count.push_back(count_philosophers);
 
-  stroganov_m_dining_philosophers::DiningPhilosophersMPI DiningPhilosophersMPI(taskData);
+  stroganov_m_dining_philosophers::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
 
   if (world.size() < 2) {
     GTEST_SKIP();
   }
-  ASSERT_TRUE(DiningPhilosophersMPI.ValidationImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PreProcessingImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.RunImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PostProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.ValidationImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PreProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.RunImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PostProcessingImpl());
 
-  bool deadlock_detected = DiningPhilosophersMPI.check_deadlock();
+  bool deadlock_detected = dining_philosophers_mpi.CheckDeadlock();
   if (world.rank() == 0) {
     ASSERT_FALSE(deadlock_detected);
   }
@@ -144,20 +141,20 @@ TEST(stroganov_m_dining_philosophers, Test_with_25_philosophers) {
 
   int count_philosophers = 25;
 
-  auto taskData = std::make_shared<ppc::core::TaskData>();
-  taskData->inputs_count.push_back(count_philosophers);
+  auto task_data = std::make_shared<ppc::core::TaskData>();
+  task_data->inputs_count.push_back(count_philosophers);
 
-  stroganov_m_dining_philosophers::DiningPhilosophersMPI DiningPhilosophersMPI(taskData);
+  stroganov_m_dining_philosophers::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
 
   if (world.size() < 2) {
     GTEST_SKIP();
   }
-  ASSERT_TRUE(DiningPhilosophersMPI.ValidationImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PreProcessingImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.RunImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PostProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.ValidationImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PreProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.RunImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PostProcessingImpl());
 
-  bool deadlock_detected = DiningPhilosophersMPI.check_deadlock();
+  bool deadlock_detected = dining_philosophers_mpi.CheckDeadlock();
   if (world.rank() == 0) {
     ASSERT_FALSE(deadlock_detected);
   }
@@ -166,28 +163,28 @@ TEST(stroganov_m_dining_philosophers, Test_with_25_philosophers) {
 TEST(stroganov_m_dining_philosophers, Deadlock_Handling) {
   boost::mpi::communicator world;
   int count_philosophers = world.size();
-  auto taskData = std::make_shared<ppc::core::TaskData>();
+  auto task_data = std::make_shared<ppc::core::TaskData>();
 
   if (world.rank() == 0) {
-    taskData->inputs_count.push_back(count_philosophers);
+    task_data->inputs_count.push_back(count_philosophers);
   }
 
-  stroganov_m_dining_philosophers::DiningPhilosophersMPI DiningPhilosophersMPI(taskData);
+  stroganov_m_dining_philosophers::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
 
   if (world.size() < 2) {
     GTEST_SKIP();
   }
 
-  ASSERT_TRUE(DiningPhilosophersMPI.ValidationImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.PreProcessingImpl());
-  ASSERT_TRUE(DiningPhilosophersMPI.RunImpl());
-  bool local_deadlock = DiningPhilosophersMPI.check_deadlock();
+  ASSERT_TRUE(dining_philosophers_mpi.ValidationImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PreProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.RunImpl());
+  bool local_deadlock = dining_philosophers_mpi.CheckDeadlock();
   bool global_deadlock = boost::mpi::all_reduce(world, local_deadlock, std::logical_or<>());
   ASSERT_FALSE(global_deadlock);
-  bool local_all_think = DiningPhilosophersMPI.check_all_think();
+  bool local_all_think = dining_philosophers_mpi.CheckAllThink();
   bool global_all_think = boost::mpi::all_reduce(world, local_all_think, std::logical_and<>());
   ASSERT_TRUE(global_all_think);
-  ASSERT_TRUE(DiningPhilosophersMPI.PostProcessingImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PostProcessingImpl());
 }
 
 TEST(stroganov_m_dining_philosophers, Single_Philosopher) {
@@ -195,12 +192,12 @@ TEST(stroganov_m_dining_philosophers, Single_Philosopher) {
 
   if (world.rank() == 0) {
     int count_philosophers = 1;
-    auto taskData = std::make_shared<ppc::core::TaskData>();
-    taskData->inputs_count.push_back(count_philosophers);
+    auto task_data = std::make_shared<ppc::core::TaskData>();
+    task_data->inputs_count.push_back(count_philosophers);
 
-    stroganov_m_dining_philosophers::DiningPhilosophersMPI DiningPhilosophersMPI(taskData);
+    stroganov_m_dining_philosophers::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
 
-    ASSERT_FALSE(DiningPhilosophersMPI.ValidationImpl());
+    ASSERT_FALSE(dining_philosophers_mpi.ValidationImpl());
   }
 }
 
@@ -209,11 +206,11 @@ TEST(stroganov_m_dining_philosophers, Invalid_Philosopher_Count) {
 
   if (world.rank() == 0) {
     int count_philosophers = -5;
-    auto taskData = std::make_shared<ppc::core::TaskData>();
-    taskData->inputs_count.push_back(count_philosophers);
+    auto task_data = std::make_shared<ppc::core::TaskData>();
+    task_data->inputs_count.push_back(count_philosophers);
 
-    stroganov_m_dining_philosophers::DiningPhilosophersMPI DiningPhilosophersMPI(taskData);
+    stroganov_m_dining_philosophers::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
 
-    ASSERT_FALSE(DiningPhilosophersMPI.ValidationImpl());
+    ASSERT_FALSE(dining_philosophers_mpi.ValidationImpl());
   }
 }

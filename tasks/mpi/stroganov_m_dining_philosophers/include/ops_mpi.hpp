@@ -19,20 +19,20 @@ class DiningPhilosophersMPI : public ppc::core::Task {
   bool RunImpl() override;
   bool PostProcessingImpl() override;
 
-  void eat();
-  void think();
-  bool distribution_forks();
-  void release_forks();
-  bool check_deadlock();
-  void resolve_deadlock();
-  bool check_all_think();
+  void Eat();
+  void Think();
+  bool DistributionForks();
+  void ReleaseForks();
+  bool CheckDeadlock();
+  void ResolveDeadlock();
+  bool CheckAllThink();
 
  private:
-  boost::mpi::communicator world;
-  int status;
-  int l_philosopher;
-  int r_philosopher;
-  int count_philosophers;
+  boost::mpi::communicator world_;
+  int status_;
+  int l_philosopher_;
+  int r_philosopher_;
+  int count_philosophers_;
 };
 
 }  // namespace stroganov_m_dining_philosophers
