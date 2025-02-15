@@ -44,12 +44,11 @@ void stroganov_m_dining_philosophers::DiningPhilosophersMPI::eat() {
 
 void stroganov_m_dining_philosophers::DiningPhilosophersMPI::release_forks() {
   status = 0;
-  boost::mpi::status probe_status;
-  if (world.iprobe(l_philosopher, 0, probe_status)) {
+  if (world.iprobe(l_philosopher, 0)) {
     world.send(l_philosopher, 0, status);
   }
 
-  if (world.iprobe(r_philosopher, 0, probe_status)) {
+  if (world.iprobe(r_philosopher, 0)) {
     world.send(r_philosopher, 0, status);
   }
 }
