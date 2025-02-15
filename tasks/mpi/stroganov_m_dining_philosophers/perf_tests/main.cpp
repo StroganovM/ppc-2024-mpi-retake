@@ -1,14 +1,14 @@
 // Copyright 2023 Nesterov Alexander
 #include <gtest/gtest.h>
 
-#include <boost/mpi/timer.hpp>
 #include <boost/mpi/communicator.hpp>
 #include <boost/mpi/environment.hpp>
+#include <boost/mpi/timer.hpp>
+#include <memory>
 #include <vector>
 
 #include "core/perf/include/perf.hpp"
 #include "core/task/include/task.hpp"
-#include <memory>
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
 
 TEST(stroganov_m_dining_philosophers, test_pipeline_Run) {
@@ -20,17 +20,16 @@ TEST(stroganov_m_dining_philosophers, test_pipeline_Run) {
     task_data->inputs_count.push_back(count_philosophers);
   }
 
-  auto DiningPhilosophersMPI =
-    std::make_shared<stroganov_m_dining_philosophers::DiningPhilosophersMPI>(task_data);
+  auto task_data_par = std::make_shared<stroganov_m_dining_philosophers::DiningPhilosophersMPI>(task_data);
 
   if (world.size() < 2) {
     GTEST_SKIP() << "Skipping test due to failed validation";
   }
 
-  DiningPhilosophersMPI->ValidationImpl();
-  DiningPhilosophersMPI->PreProcessingImpl();
-  DiningPhilosophersMPI->RunImpl();
-  DiningPhilosophersMPI->PostProcessingImpl();
+  task_data_par->ValidationImpl();
+  task_data_par->PreProcessingImpl();
+  task_data_par->RunImpl();
+  task_data_par->PostProcessingImpl();
 
   auto perf_attr = std::make_shared<ppc::core::PerfAttr>();
   perf_attr->num_running = 10;
@@ -39,7 +38,7 @@ TEST(stroganov_m_dining_philosophers, test_pipeline_Run) {
 
   auto perf_results = std::make_shared<ppc::core::PerfResults>();
 
-  auto perf_analyzer = std::make_shared<ppc::core::Perf>(DiningPhilosophersMPI);
+  auto perf_analyzer = std::make_shared<ppc::core::Perf>(task_data_par);
   perf_analyzer->PipelineRun(perf_attr, perf_results);
 
   if (world.rank() == 0) {
@@ -58,17 +57,16 @@ TEST(stroganov_m_dining_philosophers, test_task_Run) {
     task_data->inputs_count.push_back(count_philosophers);
   }
 
-  auto DiningPhilosophersMPI =
-    std::make_shared<stroganov_m_dining_philosophers::DiningPhilosophersMPI>(task_data);
+  auto task_data_par = std::make_shared<stroganov_m_dining_philosophers::DiningPhilosophersMPI>(task_data);
 
   if (world.size() < 2) {
     GTEST_SKIP() << "Skipping test due to failed validation";
   }
 
-  DiningPhilosophersMPI->ValidationImpl();
-  DiningPhilosophersMPI->PreProcessingImpl();
-  DiningPhilosophersMPI->RunImpl();
-  DiningPhilosophersMPI->PostProcessingImpl();
+  task_data_par->ValidationImpl();
+  task_data_par->PreProcessingImpl();
+  task_data_par->RunImpl();
+  task_data_par->PostProcessingImpl();
 
   auto perf_attr = std::make_shared<ppc::core::PerfAttr>();
   perf_attr->num_running = 10;
@@ -77,7 +75,7 @@ TEST(stroganov_m_dining_philosophers, test_task_Run) {
 
   auto perf_results = std::make_shared<ppc::core::PerfResults>();
 
-  auto perf_analyzer = std::make_shared<ppc::core::Perf>(DiningPhilosophersMPI);
+  auto perf_analyzer = std::make_shared<ppc::core::Perf>(task_data_par);
   perf_analyzer->TaskRun(perf_attr, perf_results);
 
   if (world.rank() == 0) {
