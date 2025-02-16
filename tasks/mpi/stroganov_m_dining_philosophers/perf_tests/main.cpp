@@ -10,7 +10,7 @@
 #include "core/task/include/task.hpp"
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
 
-TEST(stroganov_m_dining_philosophers, test_pipeline_Run) {
+TEST(stroganov_m_dining_philosophers, test_pipeline_run) {
   boost::mpi::communicator world;
 
   std::shared_ptr<ppc::core::TaskData> task_data = std::make_shared<ppc::core::TaskData>();
@@ -47,7 +47,7 @@ TEST(stroganov_m_dining_philosophers, test_pipeline_Run) {
   }
 }
 
-TEST(stroganov_m_dining_philosophers, test_task_Run) {
+TEST(stroganov_m_dining_philosophers, test_task_run) {
   boost::mpi::communicator world;
 
   std::shared_ptr<ppc::core::TaskData> task_data = std::make_shared<ppc::core::TaskData>();
