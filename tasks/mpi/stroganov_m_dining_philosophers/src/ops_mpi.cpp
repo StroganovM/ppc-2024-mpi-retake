@@ -3,11 +3,8 @@
 
 #include <algorithm>
 #include <chrono>
-#include <functional>
-#include <iostream>
 #include <random>
 #include <thread>
-#include <utility>
 #include <vector>
 
 using namespace std::chrono_literals;
@@ -69,7 +66,7 @@ bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::DistributionForks()
   status_ = 2;
   int l_status = -1;
   int r_status = -1;
-
+/*
   if (world_.rank() % 2 == 0) {
     world_.send(l_philosopher_, 0, status_);
     if (world_.iprobe(l_philosopher_, 0)) {
@@ -102,6 +99,32 @@ bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::DistributionForks()
           }
         }
       }
+    }
+  }
+ */
+
+  bool is_even = (world_.rank() % 2 == 0);
+
+  auto request_fork = [&](int neighbor, int& status) {
+    world_.send(neighbor, 0, status_);
+    if (world_.iprobe(neighbor, 0)) {
+      world_.recv(neighbor, 0, status);
+      return (status == 0);
+    }
+    return false;
+  };
+
+  if (is_even) {
+    if (request_fork(l_philosopher_, l_status) && request_fork(r_philosopher_, r_status)) {
+      status_ = 1;
+      world_.isend(l_philosopher_, 0, status_);
+      world_.isend(r_philosopher_, 0, status_);
+    }
+  } else {
+    if (request_fork(r_philosopher_, r_status) && request_fork(l_philosopher_, l_status)) {
+      status_ = 1;
+      world_.send(l_philosopher_, 0, status_);
+      world_.send(r_philosopher_, 0, status_);
     }
   }
   return true;
