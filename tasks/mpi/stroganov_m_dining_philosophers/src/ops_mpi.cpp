@@ -9,7 +9,7 @@
 
 using namespace std::chrono_literals;
 
-bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::PreProcessingImpl() {
+bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PreProcessingImpl() {
   l_philosopher_ = (world_.rank() + world_.size() - 1) % world_.size();
   r_philosopher_ = (world_.rank() + 1) % world_.size();
   std::random_device rd;
@@ -19,7 +19,7 @@ bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::PreProcessingImpl()
   return true;
 }
 
-bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::ValidationImpl() {
+bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::ValidationImpl() {
   if (world_.rank() == 0) {
     count_philosophers_ = task_data->inputs_count[0];
   } else {
@@ -29,17 +29,17 @@ bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::ValidationImpl() {
   return count_philosophers_ >= 2;
 }
 
-void stroganov_m_dining_philosophers::DiningPhilosophersMPI::Think() {
+void stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::Think() {
   status_ = 0;
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
-void stroganov_m_dining_philosophers::DiningPhilosophersMPI::Eat() {
+void stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::Eat() {
   status_ = 1;
   std::this_thread::sleep_for(std::chrono::milliseconds(80));
 }
 
-void stroganov_m_dining_philosophers::DiningPhilosophersMPI::ReleaseForks() {
+void stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::ReleaseForks() {
   status_ = 0;
   /*
   if (world.iprobe(l_philosopher, 0)) {
@@ -62,7 +62,7 @@ void stroganov_m_dining_philosophers::DiningPhilosophersMPI::ReleaseForks() {
   }
 }
 
-bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::DistributionForks() {
+bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::DistributionForks() {
   status_ = 2;
   int l_status = -1;
   int r_status = -1;
@@ -94,7 +94,7 @@ bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::DistributionForks()
   return true;
 }
 
-bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::RunImpl() {
+bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::RunImpl() {
   while (!CheckAllThink()) {
     Think();
     DistributionForks();
@@ -105,21 +105,21 @@ bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::RunImpl() {
   return true;
 }
 
-bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::CheckAllThink() {
+bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::CheckAllThink() {
   std::vector<int> all_states;
   boost::mpi::all_gather(world_, status_, all_states);
   world_.barrier();
   return std::all_of(all_states.begin(), all_states.end(), [](int state) { return state == 0; });
 }
 
-bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::CheckDeadlock() {
+bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::CheckDeadlock() {
   std::vector<int> all_states(world_.size(), 0);
   boost::mpi::all_gather(world_, status_, all_states);
   // return std::ranges::all_of(all_states, [](const int& state) { return state == 2; });
   return std::all_of(all_states.begin(), all_states.end(), [](int state) { return state == 2; });
 }
 
-bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::PostProcessingImpl() {
+bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingImpl() {
   world_.barrier();
   while (world_.iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG)) {
     int lastes_message;

@@ -19,7 +19,7 @@ TEST(stroganov_m_dining_philosophers_mpi, test_pipeline_run) {
     task_data->inputs_count.push_back(count_philosophers);
   }
 
-  auto task_data_par = std::make_shared<stroganov_m_dining_philosophers::DiningPhilosophersMPI>(task_data);
+  auto task_data_par = std::make_shared<stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI>(task_data);
 
   if (world.size() < 2) {
     GTEST_SKIP() << "Skipping test due to failed validation";
@@ -56,7 +56,7 @@ TEST(stroganov_m_dining_philosophers_mpi, test_task_run) {
     task_data->inputs_count.push_back(count_philosophers);
   }
 
-  auto task_data_par = std::make_shared<stroganov_m_dining_philosophers::DiningPhilosophersMPI>(task_data);
+  auto task_data_par = std::make_shared<stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI>(task_data);
 
   if (world.size() < 2) {
     GTEST_SKIP() << "Skipping test due to failed validation";

@@ -6,7 +6,7 @@
 
 #include "core/task/include/task.hpp"
 
-namespace stroganov_m_dining_philosophers {
+namespace stroganov_m_dining_philosophers_mpi {
 
 class DiningPhilosophersMPI : public ppc::core::Task {
  public:
@@ -32,4 +32,4 @@ class DiningPhilosophersMPI : public ppc::core::Task {
   int count_philosophers_;
 };
 
-}  // namespace stroganov_m_dining_philosophers
+}  // namespace stroganov_m_dining_philosophers_mpi
