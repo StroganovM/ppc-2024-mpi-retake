@@ -66,43 +66,7 @@ bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::DistributionForks()
   status_ = 2;
   int l_status = -1;
   int r_status = -1;
-/*
-  if (world_.rank() % 2 == 0) {
-    world_.send(l_philosopher_, 0, status_);
-    if (world_.iprobe(l_philosopher_, 0)) {
-      world_.recv(l_philosopher_, 0, l_status);
-      if (l_status == 0) {
-        world_.send(r_philosopher_, 0, status_);
-
-        if (world_.iprobe(r_philosopher_, 0)) {
-          world_.recv(r_philosopher_, 0, r_status);
-          if (r_status == 0) {
-            status_ = 1;
-            world_.isend(l_philosopher_, 0, status_);
-            world_.isend(r_philosopher_, 0, status_);
-          }
-        }
-      }
-    }
-  } else {
-    if (world_.iprobe(r_philosopher_, 0)) {
-      world_.recv(r_philosopher_, 0, r_status);
-      if (r_status == 0) {
-        world_.send(l_philosopher_, 0, status_);
-
-        if (world_.iprobe(l_philosopher_, 0)) {
-          world_.recv(l_philosopher_, 0, l_status);
-          if (l_status == 0) {
-            status_ = 1;
-            world_.send(l_philosopher_, 0, status_);
-            world_.send(r_philosopher_, 0, status_);
-          }
-        }
-      }
-    }
-  }
- */
-
+  
   bool is_even = (world_.rank() % 2 == 0);
 
   auto request_fork = [&](int neighbor, int& status) {
