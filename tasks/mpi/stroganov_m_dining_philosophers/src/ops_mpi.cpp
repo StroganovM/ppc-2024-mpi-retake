@@ -66,7 +66,7 @@ bool stroganov_m_dining_philosophers::DiningPhilosophersMPI::DistributionForks()
   status_ = 2;
   int l_status = -1;
   int r_status = -1;
-  
+
   bool is_even = (world_.rank() % 2 == 0);
 
   auto request_fork = [&](int neighbor, int& status) {
