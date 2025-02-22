@@ -1,8 +1,9 @@
 // Copyright 2024 Stroganov Mikhail
+#include <boost/mpi/collectives.hpp>
+#include <boost/mpi/communicator.hpp>
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
 
 #include <algorithm>
-#include <boost/mpi/collectives.hpp>
 #include <chrono>
 #include <mpi.h>
 #include <random>
