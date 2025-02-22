@@ -5,7 +5,6 @@
 
 #include <algorithm>
 #include <chrono>
-#include <mpi.h>
 #include <random>
 #include <thread>
 #include <vector>
@@ -100,7 +99,7 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::DistributionFor
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::RunImpl() {
   do {
     Think();
-    this->DistributionForks();
+    DistributionForks();
     Eat();
     ReleaseForks();
     if (CheckDeadlock()) {

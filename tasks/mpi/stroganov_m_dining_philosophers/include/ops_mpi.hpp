@@ -6,6 +6,8 @@
 
 #include "core/task/include/task.hpp"
 
+#include <algorithm>
+
 namespace stroganov_m_dining_philosophers_mpi {
 
 class DiningPhilosophersMPI : public ppc::core::Task {
