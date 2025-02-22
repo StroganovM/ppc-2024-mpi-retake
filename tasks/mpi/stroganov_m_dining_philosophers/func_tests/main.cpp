@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
-/*
+
 TEST(stroganov_m_dining_philosophers_mpi, Valid_Number_Of_Philosophers) {
   boost::mpi::communicator world;
   int count_philosophers = 5;
@@ -25,7 +25,7 @@ TEST(stroganov_m_dining_philosophers_mpi, Valid_Number_Of_Philosophers) {
   ASSERT_TRUE(dining_philosophers_mpi.RunImpl());
   ASSERT_TRUE(dining_philosophers_mpi.PostProcessingImpl());
 }
-
+/*
 TEST(stroganov_m_dining_philosophers_mpi, Deadlock_Free_Execution) {
   boost::mpi::communicator world;
   auto task_data = std::make_shared<ppc::core::TaskData>();
