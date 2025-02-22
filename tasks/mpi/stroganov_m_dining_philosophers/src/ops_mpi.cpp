@@ -112,7 +112,7 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::RunImpl() {
 
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::CheckAllThink() {
   std::vector<int> all_states;
-  boost::mpi::all_gather(world_, status_, all_states);
+  boost::mpi::all_gather(world_, status_, all_states); // NOLINT no header providing
   world_.barrier();
   return std::ranges::all_of(all_states, [](int state) { return state == 0; });
 }
@@ -128,7 +128,6 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingI
   world_.barrier();
   while (world_.iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG)) {
     int lastes_message = 0;
-    MPI_Status status = {};
     world_.recv(MPI_ANY_SOURCE, MPI_ANY_TAG, lastes_message);
   }
   world_.barrier();
