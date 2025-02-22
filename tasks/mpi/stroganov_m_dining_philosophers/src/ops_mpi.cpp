@@ -87,6 +87,7 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::DistributionFor
       status_ = 1;
       world_.isend(l_philosopher_, 0, status_);
       world_.isend(r_philosopher_, 0, status_);
+      boost::mpi::wait_all(&req1, &req2);
     }
   } else {
     if (request_fork(r_philosopher_, r_status) && request_fork(l_philosopher_, l_status)) {
