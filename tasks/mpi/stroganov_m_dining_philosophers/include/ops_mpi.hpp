@@ -6,7 +6,7 @@
 
 #include "core/task/include/task.hpp"
 
-#include <algorithm>
+#include <utility>
 
 namespace stroganov_m_dining_philosophers_mpi {
 
