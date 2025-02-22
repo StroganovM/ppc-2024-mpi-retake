@@ -53,12 +53,12 @@ void stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::ReleaseForks() 
   if (world_.iprobe(l_philosopher_, 0)) {
     world_.send(l_philosopher_, 0, status_);
     int recv_status;
-    world_.recv(l_philosopher_, 0, recv_status);  // Убедитесь, что сообщение принято
+    world_.recv(l_philosopher_, 0, recv_status);
   }
   if (world_.iprobe(r_philosopher_, 0)) {
     world_.send(r_philosopher_, 0, status_);
     int recv_status;
-    world_.recv(r_philosopher_, 0, recv_status);  // Убедитесь, что сообщение принято
+    world_.recv(r_philosopher_, 0, recv_status);
   }
 }
 
@@ -95,13 +95,13 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::DistributionFor
 }
 
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::RunImpl() {
-  while (!CheckAllThink()) {
+  do {
     Think();
     DistributionForks();
     Eat();
     ReleaseForks();
     if (CheckDeadlock()) return false;
-  }
+  } while (!CheckAllThink());
   return true;
 }
 
