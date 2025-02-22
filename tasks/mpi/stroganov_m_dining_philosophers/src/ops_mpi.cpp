@@ -62,7 +62,7 @@ void stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::ReleaseForks() 
   }
 }
 
-bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::DistributionForks() {
+void stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::DistributionForks() {
   status_ = 2;
   int l_status = -1;
   int r_status = -1;
@@ -91,7 +91,6 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::DistributionFor
       world_.send(r_philosopher_, 0, status_);
     }
   }
-  return true;
 }
 
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::RunImpl() {
