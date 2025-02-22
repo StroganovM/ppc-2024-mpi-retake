@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <mpi.h>
 #include <random>
 #include <thread>
 #include <vector>
