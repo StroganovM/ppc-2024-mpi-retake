@@ -128,6 +128,7 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingI
   world_.barrier();
   while (world_.iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG)) {
     int lastes_message = 0;
+    MPI_Status status = {};
     world_.recv(MPI_ANY_SOURCE, MPI_ANY_TAG, lastes_message);
   }
   world_.barrier();
