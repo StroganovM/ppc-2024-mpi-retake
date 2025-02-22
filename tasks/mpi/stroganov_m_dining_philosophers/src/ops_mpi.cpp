@@ -99,7 +99,7 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::DistributionFor
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::RunImpl() {
   do {
     Think();
-    //DistributionForks();
+    DistributionForks();
     Eat();
     ReleaseForks();
     if (CheckDeadlock()) {
