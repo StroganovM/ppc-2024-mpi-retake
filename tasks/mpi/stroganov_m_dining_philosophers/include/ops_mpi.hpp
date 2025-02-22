@@ -18,7 +18,7 @@ class DiningPhilosophersMPI : public ppc::core::Task {
 
   void Eat();
   void Think();
-  void DistributionForks();
+  bool DistributionForks();
   void ReleaseForks();
   bool CheckDeadlock();
   void ResolveDeadlock();
