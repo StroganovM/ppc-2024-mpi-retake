@@ -66,9 +66,8 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::DistributionFor
   status_ = 2;
   int l_status = -1;
   int r_status = -1;
-  int rank = world_.rank();
 
-  bool is_even = (rank % 2 == 0);
+  bool is_even = (world_.rank() % 2 == 0); // NOLINT Assuming the condition is true
 
   auto request_fork = [&](int neighbor, int& status) {
     world_.send(neighbor, 0, status_);
