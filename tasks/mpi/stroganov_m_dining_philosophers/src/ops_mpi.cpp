@@ -2,6 +2,7 @@
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
 
 #include <algorithm>
+#include <boost/mpi/collectives.hpp>
 #include <chrono>
 #include <mpi.h>
 #include <random>
@@ -22,7 +23,7 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PreProcessingIm
 
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::ValidationImpl() {
   if (world_.rank() == 0) {
-    count_philosophers_ = task_data->inputs_count[0];
+    count_philosophers_ = static_cast<int>(task_data->inputs_count[0]);
   } else {
     count_philosophers_ = world_.size();
   }
@@ -101,7 +102,9 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::RunImpl() {
     this->DistributionForks();
     Eat();
     ReleaseForks();
-    if (CheckDeadlock()) return false;
+    if (CheckDeadlock()) {
+      return false;
+    }
   } while (!CheckAllThink());
   return true;
 }
@@ -110,14 +113,14 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::CheckAllThink()
   std::vector<int> all_states;
   boost::mpi::all_gather(world_, status_, all_states);
   world_.barrier();
-  return std::all_of(all_states.begin(), all_states.end(), [](int state) { return state == 0; });
+  return std::ranges::all_of(all_states, [](int state) { return state == 0; });
 }
 
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::CheckDeadlock() {
   std::vector<int> all_states(world_.size(), 0);
   boost::mpi::all_gather(world_, status_, all_states);
   // return std::ranges::all_of(all_states, [](const int& state) { return state == 2; });
-  return std::all_of(all_states.begin(), all_states.end(), [](int state) { return state == 2; });
+  return std::ranges::all_of(all_states, [](int state) { return state == 2; });
 }
 
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingImpl() {
