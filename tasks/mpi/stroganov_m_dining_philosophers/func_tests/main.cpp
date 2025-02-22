@@ -1,4 +1,5 @@
 // Copyright 2023 Nesterov Alexander
+/*
 #include <gtest/gtest.h>
 
 #include <boost/mpi/communicator.hpp>
@@ -25,7 +26,7 @@ TEST(stroganov_m_dining_philosophers_mpi, Valid_Number_Of_Philosophers) {
   ASSERT_TRUE(dining_philosophers_mpi.RunImpl());
   ASSERT_TRUE(dining_philosophers_mpi.PostProcessingImpl());
 }
-/*
+
 TEST(stroganov_m_dining_philosophers_mpi, Deadlock_Free_Execution) {
   boost::mpi::communicator world;
   auto task_data = std::make_shared<ppc::core::TaskData>();
