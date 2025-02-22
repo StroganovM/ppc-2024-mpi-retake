@@ -53,7 +53,6 @@ void stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::ReleaseForks() 
     world.send(r_philosopher, 0, status);
   }
 */
-  MPI_Status status;
   if (world_.iprobe(l_philosopher_, 0)) {
     world_.send(l_philosopher_, 0, status_);
     int recv_status = -2;
