@@ -123,6 +123,19 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::CheckDeadlock()
   return std::ranges::all_of(all_states, [](int state) { return state == 2; });
 }
 
+bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingImpl() {
+  world_.barrier();
+
+  // Очистка возможных висящих сообщений
+  while (world_.iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG)) {
+    int last_message = 0;
+    world_.recv(MPI_ANY_SOURCE, MPI_ANY_TAG, last_message);
+  }
+
+  world_.barrier();
+  return true;
+}
+
 /*
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingImpl() {
   world_.barrier();
@@ -133,7 +146,7 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingI
   world_.barrier();
   return true;
 }
-*/
+
 
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingImpl() {
   world_.barrier();
@@ -153,3 +166,5 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingI
   world_.barrier();
   return true;
 }
+*/
+
