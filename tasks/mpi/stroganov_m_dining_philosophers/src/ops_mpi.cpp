@@ -45,15 +45,7 @@ void stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::Eat() {
 
 void stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::ReleaseForks() {
   status_ = 0;
-  /*
-  if (world.iprobe(l_philosopher, 0)) {
-    world.send(l_philosopher, 0, status);
-  }
 
-  if (world.iprobe(r_philosopher, 0)) {
-    world.send(r_philosopher, 0, status);
-  }
-*/
   if (world_.iprobe(l_philosopher_, 0)) {
     world_.send(l_philosopher_, 0, status_);
     int recv_status = -2;
@@ -138,35 +130,3 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingI
   world_.barrier();
   return true;
 }
-
-/*
-bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingImpl() {
-  world_.barrier();
-  while (world_.iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG)) {
-    int lastes_message = 0;
-    world_.recv(MPI_ANY_SOURCE, MPI_ANY_TAG, lastes_message);
-  }
-  world_.barrier();
-  return true;
-}
-
-
-bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingImpl() {
-  world_.barrier();
-
-  int latest_message = 0;
-  MPI_Status status;
-
-  while (world_.iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG, status)) {
-    world_.recv(status.MPI_SOURCE, status.MPI_TAG, latest_message);
-
-    // Дополнительная проверка на завершение (можно использовать специфический TAG или значение)
-    if (latest_message == SOME_TERMINATION_VALUE) {
-      break;
-    }
-  }
-
-  world_.barrier();
-  return true;
-}
-*/
