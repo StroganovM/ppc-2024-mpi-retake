@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <mpi.h>
 #include <random>
 #include <thread>
 #include <vector>
@@ -125,11 +126,12 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::CheckDeadlock()
 
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingImpl() {
   world_.barrier();
-
-  // Очистка возможных висящих сообщений
-  while (world_.iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG)) {
+  int max_attempts = 100;
+  int attempts = 0;
+  while (world_.iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG) && attempts < max_attempts) {
     int last_message = 0;
     world_.recv(MPI_ANY_SOURCE, MPI_ANY_TAG, last_message);
+    attempts++;
   }
 
   world_.barrier();
