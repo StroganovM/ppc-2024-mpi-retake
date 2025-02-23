@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 
+#include "core/task/include/task.hpp"
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
 /*
 TEST(stroganov_m_dining_philosophers_mpi, Valid_Number_Of_Philosophers) {
