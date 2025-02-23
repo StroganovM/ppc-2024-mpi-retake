@@ -1,11 +1,12 @@
 // Copyright 2024 Stroganov Mikhail
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
+
+#include <mpi.h>
+#include <algorithm>
 #include <boost/mpi/collectives.hpp>
 #include <boost/mpi/communicator.hpp>
 
-#include <algorithm>
 #include <chrono>
-#include <mpi.h>
 #include <random>
 #include <thread>
 #include <vector>
@@ -70,7 +71,7 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::DistributionFor
   int l_status = -1;
   int r_status = -1;
 
-  bool is_even = (world_.rank() % 2 == 0); // NOLINT Assuming the condition is true
+  bool is_even = (world_.rank() % 2 == 0);  // NOLINT Assuming the condition is true
 
   auto request_fork = [&](int neighbor, int& status) {
     world_.send(neighbor, 0, status_);
@@ -112,7 +113,7 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::RunImpl() {
 
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::CheckAllThink() {
   std::vector<int> all_states;
-  boost::mpi::all_gather(world_, status_, all_states); // NOLINT no header providing
+  boost::mpi::all_gather(world_, status_, all_states);  // NOLINT no header providing
   world_.barrier();
   return std::ranges::all_of(all_states, [](int state) { return state == 0; });
 }
@@ -169,4 +170,3 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingI
   return true;
 }
 */
-

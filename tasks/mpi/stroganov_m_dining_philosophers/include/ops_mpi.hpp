@@ -3,10 +3,9 @@
 
 #include <boost/mpi/collectives.hpp>
 #include <boost/mpi/communicator.hpp>
+#include <utility>
 
 #include "core/task/include/task.hpp"
-
-#include <utility>
 
 namespace stroganov_m_dining_philosophers_mpi {
 
