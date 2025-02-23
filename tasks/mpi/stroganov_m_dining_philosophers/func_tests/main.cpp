@@ -189,11 +189,13 @@ TEST(stroganov_m_dining_philosophers_mpi, test_deadlock_handling) {
   dining_philosophers_mpi.RunImpl();
 
   bool local_deadlock = dining_philosophers_mpi.CheckDeadlock();
-  bool global_deadlock = boost::mpi::all_reduce(world, local_deadlock, std::logical_or<>());  // NOLINT no header providing
+  bool global_deadlock =
+      boost::mpi::all_reduce(world, local_deadlock, std::logical_or<>());  // NOLINT no header providing
   ASSERT_FALSE(global_deadlock);
 
   bool local_all_think = dining_philosophers_mpi.CheckAllThink();
-  bool global_all_think = boost::mpi::all_reduce(world, local_all_think, std::logical_and<>());  // NOLINT no header providing
+  bool global_all_think =
+      boost::mpi::all_reduce(world, local_all_think, std::logical_and<>());  // NOLINT no header providing
   ASSERT_TRUE(global_all_think);
 
   dining_philosophers_mpi.PostProcessingImpl();
