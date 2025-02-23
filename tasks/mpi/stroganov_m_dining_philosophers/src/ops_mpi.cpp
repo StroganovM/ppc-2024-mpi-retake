@@ -2,10 +2,10 @@
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
 
 #include <mpi.h>
+
 #include <algorithm>
 #include <boost/mpi/collectives.hpp>
 #include <boost/mpi/communicator.hpp>
-
 #include <chrono>
 #include <random>
 #include <thread>
