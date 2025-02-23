@@ -124,13 +124,11 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::CheckDeadlock()
 }
 
 bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::PostProcessingImpl() {
-  /*
   world_.barrier();
   while (world_.iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG)) {
     int lastes_message = 0;
     world_.recv(MPI_ANY_SOURCE, MPI_ANY_TAG, lastes_message);
   }
   world_.barrier();
-  */
   return true;
 }

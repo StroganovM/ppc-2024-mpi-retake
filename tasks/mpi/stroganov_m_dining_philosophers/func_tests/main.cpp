@@ -1,5 +1,4 @@
 // Copyright 2023 Nesterov Alexander
-/*
 #include <gtest/gtest.h>
 
 #include <boost/mpi/communicator.hpp>
@@ -7,7 +6,7 @@
 #include <vector>
 
 #include "mpi/stroganov_m_dining_philosophers/include/ops_mpi.hpp"
-
+/*
 TEST(stroganov_m_dining_philosophers_mpi, Valid_Number_Of_Philosophers) {
   boost::mpi::communicator world;
   int count_philosophers = 5;
@@ -202,7 +201,7 @@ TEST(stroganov_m_dining_philosophers_mpi, Single_Philosopher) {
     ASSERT_FALSE(dining_philosophers_mpi.ValidationImpl());
   }
 }
-
+*/
 TEST(stroganov_m_dining_philosophers_mpi, Invalid_Philosopher_Count) {
   boost::mpi::communicator world;
 
@@ -216,4 +215,3 @@ TEST(stroganov_m_dining_philosophers_mpi, Invalid_Philosopher_Count) {
     ASSERT_FALSE(dining_philosophers_mpi.ValidationImpl());
   }
 }
-*/
