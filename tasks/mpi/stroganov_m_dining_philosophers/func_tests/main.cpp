@@ -254,3 +254,77 @@ TEST(stroganov_m_dining_philosophers_mpi, Forks_Are_Released) {
 
   ASSERT_TRUE(dining_philosophers_mpi.PostProcessingImpl());
 }
+
+/*
+TEST(stroganov_m_dining_philosophers_mpi, test_initialization) {
+  boost::mpi::communicator world;
+  auto task_data = std::make_shared<ppc::core::TaskData>();
+
+  if (world.rank() == 0) {
+    task_data->inputs_count.push_back(world.size());
+  }
+
+  stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
+
+  ASSERT_TRUE(dining_philosophers_mpi.ValidationImpl());
+  ASSERT_TRUE(dining_philosophers_mpi.PreProcessingImpl());
+}
+
+TEST(stroganov_m_dining_philosophers_mpi, test_think_eat_release) {
+  boost::mpi::communicator world;
+  auto task_data = std::make_shared<ppc::core::TaskData>();
+
+  if (world.rank() == 0) {
+    task_data->inputs_count.push_back(world.size());
+  }
+
+  stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
+  dining_philosophers_mpi.PreProcessingImpl();
+
+  dining_philosophers_mpi.Think();
+  ASSERT_EQ(dining_philosophers_mpi.GetStatus(), 0);
+
+  dining_philosophers_mpi.DistributionForks();
+  dining_philosophers_mpi.Eat();
+  ASSERT_EQ(dining_philosophers_mpi.GetStatus(), 1);
+
+  dining_philosophers_mpi.ReleaseForks();
+  ASSERT_EQ(dining_philosophers_mpi.GetStatus(), 0);
+}
+
+TEST(stroganov_m_dining_philosophers_mpi, test_deadlock_detection) {
+  boost::mpi::communicator world;
+  auto task_data = std::make_shared<ppc::core::TaskData>();
+
+  if (world.rank() == 0) {
+    task_data->inputs_count.push_back(world.size());
+  }
+
+  stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
+  dining_philosophers_mpi.PreProcessingImpl();
+
+  for (int i = 0; i < 5; ++i) {
+    dining_philosophers_mpi.DistributionForks();
+  }
+
+  ASSERT_FALSE(dining_philosophers_mpi.CheckDeadlock());
+}
+
+TEST(stroganov_m_dining_philosophers_mpi, test_all_think_completion) {
+  boost::mpi::communicator world;
+  auto task_data = std::make_shared<ppc::core::TaskData>();
+
+  if (world.rank() == 0) {
+    task_data->inputs_count.push_back(world.size());
+  }
+
+  stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI dining_philosophers_mpi(task_data);
+  dining_philosophers_mpi.PreProcessingImpl();
+
+  while (!dining_philosophers_mpi.CheckAllThink()) {
+    dining_philosophers_mpi.Think();
+  }
+
+  ASSERT_TRUE(dining_philosophers_mpi.CheckAllThink());
+}
+*/
