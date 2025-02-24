@@ -24,7 +24,6 @@ class DiningPhilosophersMPI : public ppc::core::Task {
   bool CheckDeadlock();
   void ResolveDeadlock();
   bool CheckAllThink();
-  int GetStatus() const { return status_; }
 
  private:
   boost::mpi::communicator world_;
