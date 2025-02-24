@@ -66,7 +66,7 @@ bool stroganov_m_dining_philosophers_mpi::DiningPhilosophersMPI::DistributionFor
   bool is_even = (world_.rank() % 2 == 0);  // NOLINT Assuming the condition is true
 
   auto request_fork = [&](int neighbor, int& status) {
-    world_.send(neighbor, 0, status_);
+    world_.isend(neighbor, 0, status_);
     if (world_.iprobe(neighbor, 0)) {
       world_.irecv(neighbor, 0, status);
       return (status == 0);
